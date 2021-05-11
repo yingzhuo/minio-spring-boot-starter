@@ -13,6 +13,7 @@ package com.github.yingzhuo.spring.boot.minio.autoconfig;
 import com.github.yingzhuo.spring.boot.minio.MinioAgent;
 import com.github.yingzhuo.spring.boot.minio.exception.MinioException;
 import com.github.yingzhuo.spring.boot.minio.impl.DefaultMinioAgent;
+import com.github.yingzhuo.spring.boot.minio.properties.MinioProperties;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -34,7 +35,7 @@ import java.net.Proxy;
 @Slf4j
 @ConditionalOnProperty(prefix = "minio", name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(MinioProperties.class)
-class MinioAutoConfig {
+class MinioCoreAutoConfig {
 
     private static final String PROXY_HOST = "http.proxyHost";
     private static final String PROXY_PORT = "http.proxyPort";

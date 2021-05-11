@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.github.yingzhuo.spring.boot.minio.autoconfig.MinioAutoConfig
+  com.github.yingzhuo.spring.boot.minio.autoconfig.MinioCoreAutoConfig,\
+  com.github.yingzhuo.spring.boot.minio.autoconfig.MinioActuatorAutoConfig

@@ -8,7 +8,7 @@
 
  https://github.com/yingzhuo/minio-spring-boot-starter
 */
-package com.github.yingzhuo.spring.boot.minio.autoconfig;
+package com.github.yingzhuo.spring.boot.minio.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +26,7 @@ import java.time.Duration;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "minio")
-class MinioProperties implements Serializable, InitializingBean {
+public class MinioProperties implements Serializable, InitializingBean {
 
     /**
      * Is this starter enabled?
