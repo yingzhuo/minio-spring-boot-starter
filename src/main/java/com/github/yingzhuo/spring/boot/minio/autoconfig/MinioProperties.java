@@ -12,7 +12,12 @@ package com.github.yingzhuo.spring.boot.minio.autoconfig;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.Assert;
+
+import java.io.Serializable;
+import java.time.Duration;
 
 /**
  * @author 应卓
@@ -21,11 +26,65 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "minio")
-class MinioProperties implements java.io.Serializable {
+class MinioProperties implements Serializable, InitializingBean {
 
+    /**
+     * Is this starter enabled?
+     */
     private boolean enabled = true;
+
+    /**
+     * URL for Minio instance. Can include the HTTP scheme. Must include the port. If the port is not provided, then the port of the HTTP is taken.
+     */
     private String endpoint;
+
+    /**
+     * Access key (login) on Minio instance
+     */
     private String accessKey;
+
+    /**
+     * Secret key (password) on Minio instance
+     */
     private String secretKey;
+
+    /**
+     * Bucket name for the application. The bucket must already exists on Minio.
+     */
+    private String bucket = "minio";
+
+    /**
+     * Define the connect timeout for the Minio Client.
+     */
+    private Duration connectTimeout = Duration.ofSeconds(10);
+
+    /**
+     * Define the write timeout for the Minio Client.
+     */
+    private Duration writeTimeout = Duration.ofSeconds(60);
+
+    /**
+     * Define the read timeout for the Minio Client.
+     */
+    private Duration readTimeout = Duration.ofSeconds(10);
+
+    /**
+     * Check if the bucket exists on Minio instance.
+     * Settings this false will disable the check during the application context initialization.
+     * This property should be used for debug purpose only, because operations on Minio will not work during runtime.
+     */
+    private boolean checkBucket = true;
+
+    /**
+     * Will create the bucket if it do not exists on the Minio instance.
+     */
+    private boolean createBucket = true;
+
+    @Override
+    public void afterPropertiesSet() {
+        Assert.hasText(this.endpoint, () -> null);
+        Assert.hasText(this.accessKey, () -> null);
+        Assert.hasText(this.secretKey, () -> null);
+    }
 
 }

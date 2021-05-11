@@ -33,14 +33,16 @@ public class DefaultMinioAgent implements MinioAgent {
 
     @Override
     @SneakyThrows
-    public boolean bucketExists(String bucket) {
+    public boolean isBucketExists(String bucket) {
         return client.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
     }
 
     @Override
     @SneakyThrows
     public void makeBucket(String bucket) {
-        client.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+        if (!isBucketExists(bucket)) {
+            client.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+        }
     }
 
     @Override

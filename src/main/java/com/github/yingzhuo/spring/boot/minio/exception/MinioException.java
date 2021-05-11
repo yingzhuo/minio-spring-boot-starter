@@ -8,18 +8,16 @@
 
  https://github.com/yingzhuo/minio-spring-boot-starter
 */
-package com.github.yingzhuo.spring.boot.minio;
+package com.github.yingzhuo.spring.boot.minio.exception;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-public interface MinioAgent {
+public class MinioException extends RuntimeException {
 
-    public boolean isBucketExists(String bucket);
-
-    public void makeBucket(String bucket);
-
-    public void uploadObject(String bucket, String filename, String object);
+    public MinioException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }
