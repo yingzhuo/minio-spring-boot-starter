@@ -12,7 +12,6 @@ package com.github.yingzhuo.spring.boot.minio.autoconfig;
 
 import com.github.yingzhuo.spring.boot.minio.MinioAgent;
 import com.github.yingzhuo.spring.boot.minio.web.MinioObjectHandlerMethodReturnValueHandler;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -26,7 +25,6 @@ import java.util.List;
  * @author 应卓
  * @since 1.0.1
  */
-@Slf4j
 @ConditionalOnProperty(prefix = "minio", name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @AutoConfigureAfter(MinioCoreAutoConfig.class)
@@ -37,9 +35,7 @@ class MinioWebAutoConfig implements WebMvcConfigurer {
 
     @Override
     public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
-        if (handlers != null) {
-            handlers.add(new MinioObjectHandlerMethodReturnValueHandler(agent));
-        }
+        handlers.add(new MinioObjectHandlerMethodReturnValueHandler(agent));
     }
 
 }

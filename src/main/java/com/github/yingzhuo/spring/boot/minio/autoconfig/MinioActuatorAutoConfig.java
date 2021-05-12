@@ -13,7 +13,6 @@ package com.github.yingzhuo.spring.boot.minio.autoconfig;
 import com.github.yingzhuo.spring.boot.minio.actuator.MinioHealthIndicator;
 import com.github.yingzhuo.spring.boot.minio.properties.MinioProperties;
 import io.minio.MinioClient;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,7 +23,6 @@ import org.springframework.context.annotation.Bean;
  * @author 应卓
  * @since 1.0.0
  */
-@Slf4j
 @ConditionalOnProperty(prefix = "minio", name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnClass(name = "org.springframework.boot.actuate.endpoint.annotation.Endpoint")
 @AutoConfigureAfter(MinioCoreAutoConfig.class)
