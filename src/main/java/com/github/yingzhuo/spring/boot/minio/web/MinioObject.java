@@ -24,14 +24,14 @@ public final class MinioObject implements Serializable {
     private final String object;
     private final String attachmentName;
 
-    public static MinioObject.Builder builder() {
-        return new MinioObject.Builder();
-    }
-
     private MinioObject(String bucket, String object, String attachmentName) {
         this.bucket = bucket;
         this.object = object;
         this.attachmentName = attachmentName;
+    }
+
+    public static MinioObject.Builder builder() {
+        return new MinioObject.Builder();
     }
 
     public String getBucket() {

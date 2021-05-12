@@ -82,10 +82,12 @@ public class MinioProperties implements Serializable, InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        Assert.hasText(this.endpoint, "'minio.endpoint' must not be blank.");
-        Assert.hasText(this.accessKey, "'minio.access-key' must not be blank.");
-        Assert.hasText(this.secretKey, "'minio.secret-key' must not be blank.");
-        Assert.hasText(this.bucket, "'minio.bucket' must not be blank.");
+        if (enabled) {
+            Assert.hasText(this.endpoint, "'minio.endpoint' must not be blank.");
+            Assert.hasText(this.accessKey, "'minio.access-key' must not be blank.");
+            Assert.hasText(this.secretKey, "'minio.secret-key' must not be blank.");
+            Assert.hasText(this.bucket, "'minio.bucket' must not be blank.");
+        }
     }
 
 }

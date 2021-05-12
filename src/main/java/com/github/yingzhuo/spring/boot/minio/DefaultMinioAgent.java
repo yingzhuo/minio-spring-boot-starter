@@ -8,9 +8,8 @@
 
  https://github.com/yingzhuo/minio-spring-boot-starter
 */
-package com.github.yingzhuo.spring.boot.minio.impl;
+package com.github.yingzhuo.spring.boot.minio;
 
-import com.github.yingzhuo.spring.boot.minio.MinioAgent;
 import com.github.yingzhuo.spring.boot.minio.exception.MinioException;
 import io.minio.*;
 import org.apache.commons.io.FileUtils;
