@@ -20,9 +20,19 @@ import java.nio.file.Path;
  */
 public interface MinioAgent {
 
+    public boolean isBucketExists();
+
     public boolean isBucketExists(String bucket);
 
+    // -----------------------------------------------------------------------------------------------------------
+
+    public void makeBucket();
+
     public void makeBucket(String bucket);
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    public InputStream getObject(String object);
 
     public InputStream getObject(String bucket, String object);
 
@@ -30,35 +40,71 @@ public interface MinioAgent {
         return getObject(bucket, object.toString());
     }
 
-    public void uploadObject(String bucket, String filename, String object);
+    public InputStream getObject(Path object);
 
-    public default void uploadObject(String bucket, String filename, Path object) {
-        uploadObject(bucket, filename, object.toString());
+    // -----------------------------------------------------------------------------------------------------------
+
+    public BucketAndObject uploadObject(String filename, String object);
+
+    public BucketAndObject uploadObject(String bucket, String filename, String object);
+
+    public default BucketAndObject uploadObject(String bucket, String filename, Path object) {
+        return uploadObject(bucket, filename, object.toString());
     }
 
-    public void updateObject(String bucket, File file, String object);
+    public BucketAndObject uploadObject(String filename, Path object);
 
-    public default void updateObject(String bucket, File file, Path object) {
-        updateObject(bucket, file, object.toString());
+    // -----------------------------------------------------------------------------------------------------------
+
+    public BucketAndObject updateObject(File file, String object);
+
+    public BucketAndObject updateObject(String bucket, File file, String object);
+
+    public default BucketAndObject updateObject(String bucket, File file, Path object) {
+        return updateObject(bucket, file, object.toString());
     }
 
-    public void updateObject(String bucket, Path path, String object);
+    public BucketAndObject updateObject(File file, Path object);
 
-    public default void updateObject(String bucket, Path path, Path object) {
-        updateObject(bucket, path, object.toString());
+    // -----------------------------------------------------------------------------------------------------------
+
+    public BucketAndObject updateObject(Path path, String object);
+
+    public BucketAndObject updateObject(String bucket, Path path, String object);
+
+    public default BucketAndObject updateObject(String bucket, Path path, Path object) {
+        return updateObject(bucket, path, object.toString());
     }
 
-    public void updateObject(String bucket, InputStream inputStream, String object);
+    public BucketAndObject updateObject(Path path, Path object);
 
-    public default void updateObject(String bucket, InputStream inputStream, Path object) {
-        updateObject(bucket, inputStream, object.toString());
+    // -----------------------------------------------------------------------------------------------------------
+
+    public BucketAndObject updateObject(InputStream inputStream, String object);
+
+    public BucketAndObject updateObject(String bucket, InputStream inputStream, String object);
+
+    public default BucketAndObject updateObject(String bucket, InputStream inputStream, Path object) {
+        return updateObject(bucket, inputStream, object.toString());
     }
+
+    public BucketAndObject updateObject(InputStream inputStream, Path object);
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    public void deleteObject(String object);
 
     public void deleteObject(String bucket, String object);
 
     public default void deleteObject(String bucket, Path object) {
         deleteObject(bucket, object.toString());
     }
+
+    public void deleteObject(Path object);
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    public void deleteBucket();
 
     public void deleteBucket(String bucket);
 

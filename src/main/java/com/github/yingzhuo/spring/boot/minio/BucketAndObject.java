@@ -10,18 +10,35 @@
 */
 package com.github.yingzhuo.spring.boot.minio;
 
-import okhttp3.OkHttpClient;
-
-import java.util.function.Supplier;
+import java.io.Serializable;
 
 /**
  * @author 应卓
  * @since 1.0.2
  */
-@FunctionalInterface
-public interface OkHttpClientProvider extends Supplier<OkHttpClient> {
+public interface BucketAndObject extends Serializable {
 
-    @Override
-    public OkHttpClient get();
+    public static BucketAndObject newInstance(final String bucket, final String object) {
+        return new BucketAndObject() {
+            @Override
+            public String getBucket() {
+                return bucket;
+            }
+
+            @Override
+            public String getObject() {
+                return object;
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%s:%s", getBucket(), getObject());
+            }
+        };
+    }
+
+    public String getBucket();
+
+    public String getObject();
 
 }

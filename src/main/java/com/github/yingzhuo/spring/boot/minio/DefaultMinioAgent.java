@@ -27,9 +27,16 @@ import java.util.UUID;
 public class DefaultMinioAgent implements MinioAgent {
 
     private final MinioClient client;
+    private final String defaultBucket;
 
-    public DefaultMinioAgent(MinioClient client) {
+    public DefaultMinioAgent(MinioClient client, String bucket) {
         this.client = Objects.requireNonNull(client);
+        this.defaultBucket = Objects.requireNonNull(bucket);
+    }
+
+    @Override
+    public boolean isBucketExists() {
+        return isBucketExists(defaultBucket);
     }
 
     @Override
@@ -42,6 +49,11 @@ public class DefaultMinioAgent implements MinioAgent {
     }
 
     @Override
+    public void makeBucket() {
+        makeBucket(defaultBucket);
+    }
+
+    @Override
     public void makeBucket(String bucket) {
         try {
             if (!isBucketExists(bucket)) {
@@ -50,6 +62,11 @@ public class DefaultMinioAgent implements MinioAgent {
         } catch (Exception e) {
             throw new MinioException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public InputStream getObject(String object) {
+        return getObject(defaultBucket, object);
     }
 
     @Override
@@ -67,7 +84,17 @@ public class DefaultMinioAgent implements MinioAgent {
     }
 
     @Override
-    public void uploadObject(String bucket, String filename, String object) {
+    public InputStream getObject(Path object) {
+        return getObject(defaultBucket, object);
+    }
+
+    @Override
+    public BucketAndObject uploadObject(String filename, String object) {
+        return uploadObject(defaultBucket, filename, object);
+    }
+
+    @Override
+    public BucketAndObject uploadObject(String bucket, String filename, String object) {
         try {
             client.uploadObject(
                     UploadObjectArgs.builder()
@@ -76,29 +103,63 @@ public class DefaultMinioAgent implements MinioAgent {
                             .object(object)
                             .build()
             );
+            return BucketAndObject.newInstance(bucket, object);
         } catch (Exception e) {
             throw new MinioException(e.getMessage(), e);
         }
     }
 
     @Override
-    public void updateObject(String bucket, File file, String object) {
+    public BucketAndObject uploadObject(String filename, Path object) {
+        return uploadObject(defaultBucket, filename, object);
+    }
+
+    @Override
+    public BucketAndObject updateObject(File file, String object) {
+        return updateObject(defaultBucket, file, object);
+    }
+
+    @Override
+    public BucketAndObject updateObject(String bucket, File file, String object) {
         uploadObject(bucket, file.getAbsolutePath(), object);
+        return BucketAndObject.newInstance(bucket, object);
     }
 
     @Override
-    public void updateObject(String bucket, Path path, String object) {
+    public BucketAndObject updateObject(File file, Path object) {
+        return updateObject(defaultBucket, file, object);
+    }
+
+    @Override
+    public BucketAndObject updateObject(Path path, String object) {
+        return updateObject(defaultBucket, path, object);
+    }
+
+    @Override
+    public BucketAndObject updateObject(String bucket, Path path, String object) {
         uploadObject(bucket, path.toAbsolutePath().toString(), object);
+        return BucketAndObject.newInstance(bucket, object);
     }
 
     @Override
-    public void updateObject(String bucket, InputStream inputStream, String object) {
+    public BucketAndObject updateObject(Path path, Path object) {
+        return updateObject(defaultBucket, path, object);
+    }
+
+    @Override
+    public BucketAndObject updateObject(InputStream inputStream, String object) {
+        return updateObject(defaultBucket, inputStream, object);
+    }
+
+    @Override
+    public BucketAndObject updateObject(String bucket, InputStream inputStream, String object) {
         File temp = null;
 
         try {
             temp = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
             FileUtils.copyInputStreamToFile(inputStream, temp);
             updateObject(bucket, temp, object);
+            return BucketAndObject.newInstance(bucket, object);
         } catch (Exception e) {
             throw new MinioException(e.getMessage(), e);
         } finally {
@@ -106,6 +167,16 @@ public class DefaultMinioAgent implements MinioAgent {
                 FileUtils.deleteQuietly(temp);
             }
         }
+    }
+
+    @Override
+    public BucketAndObject updateObject(InputStream inputStream, Path object) {
+        return updateObject(defaultBucket, inputStream, object);
+    }
+
+    @Override
+    public void deleteObject(String object) {
+        deleteObject(defaultBucket, object);
     }
 
     @Override
@@ -120,6 +191,16 @@ public class DefaultMinioAgent implements MinioAgent {
         } catch (Exception e) {
             throw new MinioException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void deleteObject(Path object) {
+        deleteObject(defaultBucket, object);
+    }
+
+    @Override
+    public void deleteBucket() {
+        deleteBucket(defaultBucket);
     }
 
     @Override

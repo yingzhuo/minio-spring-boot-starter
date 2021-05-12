@@ -32,7 +32,7 @@ class MinioCoreAutoConfig {
     @Bean
     @ConditionalOnMissingBean
     OkHttpClientProvider okHttpClientProvider() {
-        return OkHttpClientProvider.empty();
+        return () -> null;
     }
 
     @Bean(name = "minioClient")
@@ -43,8 +43,8 @@ class MinioCoreAutoConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    MinioAgent minioAgent(MinioClient client) {
-        return new DefaultMinioAgent(client);
+    MinioAgent minioAgent(MinioClient client, MinioProperties properties) {
+        return new DefaultMinioAgent(client, properties.getBucket());
     }
 
 }

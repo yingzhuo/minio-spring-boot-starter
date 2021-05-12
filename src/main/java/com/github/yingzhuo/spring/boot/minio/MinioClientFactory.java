@@ -17,7 +17,7 @@ import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.SmartFactoryBean;
 
 import java.util.Objects;
 
@@ -26,7 +26,7 @@ import java.util.Objects;
  * @since 1.0.2
  */
 @Slf4j
-public class MinioClientFactory implements FactoryBean<MinioClient> {
+public class MinioClientFactory implements SmartFactoryBean<MinioClient> {
 
     private final OkHttpClientProvider okHttpClientProvider;
     private final MinioProperties properties;
@@ -39,6 +39,11 @@ public class MinioClientFactory implements FactoryBean<MinioClient> {
     @Override
     public Class<?> getObjectType() {
         return MinioClient.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return true;
     }
 
     @Override
