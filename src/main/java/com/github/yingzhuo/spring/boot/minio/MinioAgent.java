@@ -56,39 +56,39 @@ public interface MinioAgent {
 
     // -----------------------------------------------------------------------------------------------------------
 
-    public BucketAndObject updateObject(File file, String object);
+    public BucketAndObject uploadObject(File file, String object);
 
-    public BucketAndObject updateObject(String bucket, File file, String object);
+    public BucketAndObject uploadObject(String bucket, File file, String object);
 
-    public default BucketAndObject updateObject(String bucket, File file, Path object) {
-        return updateObject(bucket, file, object.toString());
+    public default BucketAndObject uploadObject(String bucket, File file, Path object) {
+        return uploadObject(bucket, file, object.toString());
     }
 
-    public BucketAndObject updateObject(File file, Path object);
+    public BucketAndObject uploadObject(File file, Path object);
 
     // -----------------------------------------------------------------------------------------------------------
 
-    public BucketAndObject updateObject(Path path, String object);
+    public BucketAndObject uploadObject(Path path, String object);
 
-    public BucketAndObject updateObject(String bucket, Path path, String object);
+    public BucketAndObject uploadObject(String bucket, Path path, String object);
 
-    public default BucketAndObject updateObject(String bucket, Path path, Path object) {
-        return updateObject(bucket, path, object.toString());
+    public default BucketAndObject uploadObject(String bucket, Path path, Path object) {
+        return uploadObject(bucket, path, object.toString());
     }
 
-    public BucketAndObject updateObject(Path path, Path object);
+    public BucketAndObject uploadObject(Path path, Path object);
 
     // -----------------------------------------------------------------------------------------------------------
 
-    public BucketAndObject updateObject(InputStream inputStream, String object);
+    public BucketAndObject uploadObject(InputStream inputStream, String object);
 
-    public BucketAndObject updateObject(String bucket, InputStream inputStream, String object);
+    public BucketAndObject uploadObject(String bucket, InputStream inputStream, String object);
 
-    public default BucketAndObject updateObject(String bucket, InputStream inputStream, Path object) {
-        return updateObject(bucket, inputStream, object.toString());
+    public default BucketAndObject uploadObject(String bucket, InputStream inputStream, Path object) {
+        return uploadObject(bucket, inputStream, object.toString());
     }
 
-    public BucketAndObject updateObject(InputStream inputStream, Path object);
+    public BucketAndObject uploadObject(InputStream inputStream, Path object);
 
     // -----------------------------------------------------------------------------------------------------------
 
