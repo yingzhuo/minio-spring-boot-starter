@@ -17,6 +17,7 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 
 /**
  * @author 应卓
+ * @since 1.0.0
  */
 public class MinioHealthIndicator implements HealthIndicator {
 
@@ -40,17 +41,18 @@ public class MinioHealthIndicator implements HealthIndicator {
                     .build();
             if (minioClient.bucketExists(args)) {
                 return Health.up()
-                        .withDetail("bucketName", bucketName)
+                        .withDetail("bucket", bucketName)
                         .build();
             } else {
                 return Health.down()
-                        .withDetail("bucketName", bucketName)
+                        .withDetail("bucket", bucketName)
                         .build();
             }
         } catch (Exception e) {
             return Health.down(e)
-                    .withDetail("bucketName", bucketName)
+                    .withDetail("bucket", bucketName)
                     .build();
         }
     }
+
 }
