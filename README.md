@@ -27,4 +27,8 @@ minio:
 
 ### 使用
 
-请参考[MinioAgent源代码](./src/main/java/com/github/yingzhuo/spring/boot/minio/MinioAgent.java)
+请参考[MinioAgent](./src/main/java/com/github/yingzhuo/spring/boot/minio/MinioAgent.java)源代码
+
+### 许可证
+
+[Apache 2.0](./LICENSE)
