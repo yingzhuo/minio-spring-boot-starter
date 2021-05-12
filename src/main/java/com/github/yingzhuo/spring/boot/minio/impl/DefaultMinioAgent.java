@@ -11,8 +11,8 @@
 package com.github.yingzhuo.spring.boot.minio.impl;
 
 import com.github.yingzhuo.spring.boot.minio.MinioAgent;
+import com.github.yingzhuo.spring.boot.minio.exception.MinioException;
 import io.minio.*;
-import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -34,40 +34,52 @@ public class DefaultMinioAgent implements MinioAgent {
     }
 
     @Override
-    @SneakyThrows
     public boolean isBucketExists(String bucket) {
-        return client.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
-    }
-
-    @Override
-    @SneakyThrows
-    public void makeBucket(String bucket) {
-        if (!isBucketExists(bucket)) {
-            client.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+        try {
+            return client.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+        } catch (Exception e) {
+            throw new MinioException(e.getMessage(), e);
         }
     }
 
     @Override
-    @SneakyThrows
-    public InputStream getObject(String bucket, String object) {
-        return client.getObject(
-                GetObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(object)
-                        .build()
-        );
+    public void makeBucket(String bucket) {
+        try {
+            if (!isBucketExists(bucket)) {
+                client.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+            }
+        } catch (Exception e) {
+            throw new MinioException(e.getMessage(), e);
+        }
     }
 
     @Override
-    @SneakyThrows
+    public InputStream getObject(String bucket, String object) {
+        try {
+            return client.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(bucket)
+                            .object(object)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new MinioException(e.getMessage(), e);
+        }
+    }
+
+    @Override
     public void uploadObject(String bucket, String filename, String object) {
-        client.uploadObject(
-                UploadObjectArgs.builder()
-                        .bucket(bucket)
-                        .filename(filename)
-                        .object(object)
-                        .build()
-        );
+        try {
+            client.uploadObject(
+                    UploadObjectArgs.builder()
+                            .bucket(bucket)
+                            .filename(filename)
+                            .object(object)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new MinioException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -81,37 +93,47 @@ public class DefaultMinioAgent implements MinioAgent {
     }
 
     @Override
-    @SneakyThrows
     public void updateObject(String bucket, InputStream inputStream, String object) {
-        final File temp = File.createTempFile(UUID.randomUUID().toString(), ".tmp"); // 临时文件
+        File temp = null;
 
         try {
+            temp = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
             FileUtils.copyInputStreamToFile(inputStream, temp);
             updateObject(bucket, temp, object);
+        } catch (Exception e) {
+            throw new MinioException(e.getMessage(), e);
         } finally {
-            FileUtils.deleteQuietly(temp);
+            if (temp != null) {
+                FileUtils.deleteQuietly(temp);
+            }
         }
     }
 
     @Override
-    @SneakyThrows
     public void deleteObject(String bucket, String object) {
-        client.removeObject(
-                RemoveObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(object)
-                        .build()
-        );
+        try {
+            client.removeObject(
+                    RemoveObjectArgs.builder()
+                            .bucket(bucket)
+                            .object(object)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new MinioException(e.getMessage(), e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public void deleteBucket(String bucket) {
-        client.removeBucket(
-                RemoveBucketArgs.builder()
-                        .bucket(bucket)
-                        .build()
-        );
+        try {
+            client.removeBucket(
+                    RemoveBucketArgs.builder()
+                            .bucket(bucket)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new MinioException(e.getMessage(), e);
+        }
     }
 
 }
