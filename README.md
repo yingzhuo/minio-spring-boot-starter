@@ -13,15 +13,24 @@
 
 * 推荐使用[maven](https://search.maven.org/search?q=minio-spring-boot-starter)
 
+```xml
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>minio-spring-boot-starter</artifactId>
+    <version>${minio.starter.version}</version>
+</dependency>
+```
+
 ### 配置
 
 ```yaml
-# application.yml / application.yaml
+# application.yml
+
 minio:
   enabled: true
-  endpoint: "http://192.168.10.115:9000"
-  access-key: "minio"
-  secret-key: "minio-minio"
+  endpoint: "https://play.min.io"
+  access-key: "my-access-key"
+  secret-key: "my-secret-key"
   bucket: "default"
 ```
 
