@@ -51,7 +51,7 @@ public class MinioProperties implements Serializable, InitializingBean {
     /**
      * Bucket name for the application. The bucket must already exists on Minio.
      */
-    private String bucket = "minio";
+    private String bucket = "default";
 
     /**
      * Define the connect timeout for the Minio Client.
@@ -82,9 +82,10 @@ public class MinioProperties implements Serializable, InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        Assert.hasText(this.endpoint, () -> null);
-        Assert.hasText(this.accessKey, () -> null);
-        Assert.hasText(this.secretKey, () -> null);
+        Assert.hasText(this.endpoint, "'minio.endpoint' must not be blank.");
+        Assert.hasText(this.accessKey, "'minio.access-key' must not be blank.");
+        Assert.hasText(this.secretKey, "'minio.secret-key' must not be blank.");
+        Assert.hasText(this.bucket, "'minio.bucket' must not be blank.");
     }
 
 }

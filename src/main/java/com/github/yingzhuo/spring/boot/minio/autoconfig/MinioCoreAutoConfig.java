@@ -102,13 +102,15 @@ class MinioCoreAutoConfig {
     }
 
     private OkHttpClient httpClient() {
-        String httpHost = System.getProperty(PROXY_HOST);
-        String httpPort = System.getProperty(PROXY_PORT);
+        final String httpHost = System.getProperty(PROXY_HOST);
+        final String httpPort = System.getProperty(PROXY_PORT);
 
         final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
         if (httpHost != null) {
             builder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(httpHost, Integer.parseInt(httpPort))));
         }
+
         return builder.build();
     }
 
