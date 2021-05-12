@@ -10,6 +10,10 @@
 */
 package com.github.yingzhuo.spring.boot.minio;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Path;
+
 /**
  * @author 应卓
  * @since 1.0.0
@@ -20,6 +24,42 @@ public interface MinioAgent {
 
     public void makeBucket(String bucket);
 
+    public InputStream getObject(String bucket, String object);
+
+    public default InputStream getObject(String bucket, Path object) {
+        return getObject(bucket, object.toString());
+    }
+
     public void uploadObject(String bucket, String filename, String object);
+
+    public default void uploadObject(String bucket, String filename, Path object) {
+        uploadObject(bucket, filename, object.toString());
+    }
+
+    public void updateObject(String bucket, File file, String object);
+
+    public default void updateObject(String bucket, File file, Path object) {
+        updateObject(bucket, file, object.toString());
+    }
+
+    public void updateObject(String bucket, Path path, String object);
+
+    public default void updateObject(String bucket, Path path, Path object) {
+        updateObject(bucket, path, object.toString());
+    }
+
+    public void updateObject(String bucket, InputStream inputStream, String object);
+
+    public default void updateObject(String bucket, InputStream inputStream, Path object) {
+        updateObject(bucket, inputStream, object.toString());
+    }
+
+    public void deleteObject(String bucket, String object);
+
+    public default void deleteObject(String bucket, Path object) {
+        deleteObject(bucket, object.toString());
+    }
+
+    public void deleteBucket(String bucket);
 
 }

@@ -12,3 +12,19 @@
 ### 下载
 
 * 推荐使用[maven](https://search.maven.org/search?q=minio-spring-boot-starter)
+
+### 配置
+
+```yaml
+# application.yml / application.yaml
+minio:
+  enabled: true
+  endpoint: "http://192.168.10.115:9000"
+  access-key: "minio"
+  secret-key: "minio-minio"
+  bucket: "default"
+```
+
+### 使用
+
+请参考[MinioAgent源代码](./src/main/java/com/github/yingzhuo/spring/boot/minio/MinioAgent.java)
