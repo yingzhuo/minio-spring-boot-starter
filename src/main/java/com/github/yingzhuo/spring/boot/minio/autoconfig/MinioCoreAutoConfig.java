@@ -10,14 +10,12 @@
 */
 package com.github.yingzhuo.spring.boot.minio.autoconfig;
 
-import com.github.yingzhuo.spring.boot.minio.DefaultMinioAgent;
-import com.github.yingzhuo.spring.boot.minio.MinioAgent;
-import com.github.yingzhuo.spring.boot.minio.MinioClientFactory;
-import com.github.yingzhuo.spring.boot.minio.OkHttpClientProvider;
+import com.github.yingzhuo.spring.boot.minio.*;
 import com.github.yingzhuo.spring.boot.minio.properties.MinioProperties;
 import io.minio.MinioClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -28,6 +26,13 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnProperty(prefix = "minio", name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(MinioProperties.class)
 class MinioCoreAutoConfig {
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConfigurationPropertiesBinding
+    BucketAndObjectConverter bucketAndObjectConverter() {
+        return new BucketAndObjectConverter();
+    }
 
     @Bean
     @ConditionalOnMissingBean
