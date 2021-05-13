@@ -8,7 +8,9 @@
 
  https://github.com/yingzhuo/minio-spring-boot-starter
 */
-package com.github.yingzhuo.spring.boot.minio;
+package com.github.yingzhuo.spring.boot.minio.operators;
+
+import com.github.yingzhuo.spring.boot.minio.BucketAndObject;
 
 import java.io.File;
 import java.io.InputStream;
@@ -16,21 +18,9 @@ import java.nio.file.Path;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.1.0
  */
-public interface MinioAgent {
-
-    public boolean isBucketExists();
-
-    public boolean isBucketExists(String bucket);
-
-    // -----------------------------------------------------------------------------------------------------------
-
-    public void makeBucket();
-
-    public void makeBucket(String bucket);
-
-    // -----------------------------------------------------------------------------------------------------------
+public interface ObjectOperators {
 
     public InputStream getObject(String object);
 
@@ -42,7 +32,7 @@ public interface MinioAgent {
 
     public InputStream getObject(Path object);
 
-    // -----------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     public BucketAndObject uploadObject(String filename, String object);
 
@@ -54,7 +44,7 @@ public interface MinioAgent {
 
     public BucketAndObject uploadObject(String filename, Path object);
 
-    // -----------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     public BucketAndObject uploadObject(File file, String object);
 
@@ -66,7 +56,7 @@ public interface MinioAgent {
 
     public BucketAndObject uploadObject(File file, Path object);
 
-    // -----------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     public BucketAndObject uploadObject(Path path, String object);
 
@@ -78,7 +68,7 @@ public interface MinioAgent {
 
     public BucketAndObject uploadObject(Path path, Path object);
 
-    // -----------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     public BucketAndObject uploadObject(InputStream inputStream, String object);
 
@@ -90,7 +80,7 @@ public interface MinioAgent {
 
     public BucketAndObject uploadObject(InputStream inputStream, Path object);
 
-    // -----------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     public void deleteObject(String object);
 
@@ -101,11 +91,5 @@ public interface MinioAgent {
     }
 
     public void deleteObject(Path object);
-
-    // -----------------------------------------------------------------------------------------------------------
-
-    public void deleteBucket();
-
-    public void deleteBucket(String bucket);
 
 }

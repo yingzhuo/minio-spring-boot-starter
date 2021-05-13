@@ -10,7 +10,7 @@
 */
 package com.github.yingzhuo.spring.boot.minio.web;
 
-import com.github.yingzhuo.spring.boot.minio.MinioAgent;
+import com.github.yingzhuo.spring.boot.minio.operators.ObjectOperators;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -24,10 +24,10 @@ import java.io.InputStream;
  */
 public class MinioObjectHandlerMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
-    private final MinioAgent agent;
+    private final ObjectOperators ops;
 
-    public MinioObjectHandlerMethodReturnValueHandler(MinioAgent agent) {
-        this.agent = agent;
+    public MinioObjectHandlerMethodReturnValueHandler(ObjectOperators ops) {
+        this.ops = ops;
     }
 
     @Override
@@ -36,12 +36,12 @@ public class MinioObjectHandlerMethodReturnValueHandler implements HandlerMethod
     }
 
     @Override
-    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
+    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) {
         final MinioObject minioObject = (MinioObject) returnValue;
 
         final String bucket = minioObject.getBucket();
         final String object = minioObject.getObject();
-        final InputStream inputStream = agent.getObject(bucket, object);
+        final InputStream inputStream = ops.getObject(bucket, object);
 
         mavContainer.setView(new MinioObjectView(inputStream, minioObject.getAttachmentName()));
     }

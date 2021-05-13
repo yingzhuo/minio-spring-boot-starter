@@ -10,7 +10,7 @@
 */
 package com.github.yingzhuo.spring.boot.minio.autoconfig;
 
-import com.github.yingzhuo.spring.boot.minio.MinioAgent;
+import com.github.yingzhuo.spring.boot.minio.operators.ObjectOperators;
 import com.github.yingzhuo.spring.boot.minio.web.MinioObjectHandlerMethodReturnValueHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -31,11 +31,11 @@ import java.util.List;
 class MinioWebAutoConfig implements WebMvcConfigurer {
 
     @Autowired
-    private MinioAgent agent;
+    private ObjectOperators objectOperators;
 
     @Override
     public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
-        handlers.add(new MinioObjectHandlerMethodReturnValueHandler(agent));
+        handlers.add(new MinioObjectHandlerMethodReturnValueHandler(objectOperators));
     }
 
 }

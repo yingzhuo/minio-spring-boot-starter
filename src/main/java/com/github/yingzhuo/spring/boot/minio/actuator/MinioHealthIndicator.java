@@ -22,11 +22,11 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 public class MinioHealthIndicator implements HealthIndicator {
 
     private final MinioClient minioClient;
-    private final String bucketName;
+    private final String defaultBucket;
 
-    public MinioHealthIndicator(MinioClient minioClient, String bucketName) {
+    public MinioHealthIndicator(MinioClient minioClient, String defaultBucket) {
         this.minioClient = minioClient;
-        this.bucketName = bucketName;
+        this.defaultBucket = defaultBucket;
     }
 
     @Override
@@ -37,20 +37,20 @@ public class MinioHealthIndicator implements HealthIndicator {
 
         try {
             BucketExistsArgs args = BucketExistsArgs.builder()
-                    .bucket(bucketName)
+                    .bucket(defaultBucket)
                     .build();
             if (minioClient.bucketExists(args)) {
                 return Health.up()
-                        .withDetail("bucket", bucketName)
+                        .withDetail("bucket", defaultBucket)
                         .build();
             } else {
                 return Health.down()
-                        .withDetail("bucket", bucketName)
+                        .withDetail("bucket", defaultBucket)
                         .build();
             }
         } catch (Exception e) {
             return Health.down(e)
-                    .withDetail("bucket", bucketName)
+                    .withDetail("bucket", defaultBucket)
                     .build();
         }
     }

@@ -8,60 +8,33 @@
 
  https://github.com/yingzhuo/minio-spring-boot-starter
 */
-package com.github.yingzhuo.spring.boot.minio;
+package com.github.yingzhuo.spring.boot.minio.operators;
 
+import com.github.yingzhuo.spring.boot.minio.BucketAndObject;
 import com.github.yingzhuo.spring.boot.minio.exception.MinioException;
-import io.minio.*;
+import io.minio.GetObjectArgs;
+import io.minio.MinioClient;
+import io.minio.RemoveObjectArgs;
+import io.minio.UploadObjectArgs;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.1.0
  */
-public class DefaultMinioAgent implements MinioAgent {
+public class ObjectOperatorsImpl implements ObjectOperators {
 
     private final MinioClient client;
     private final String defaultBucket;
 
-    public DefaultMinioAgent(MinioClient client, String bucket) {
-        this.client = Objects.requireNonNull(client);
-        this.defaultBucket = Objects.requireNonNull(bucket);
-    }
-
-    @Override
-    public boolean isBucketExists() {
-        return isBucketExists(defaultBucket);
-    }
-
-    @Override
-    public boolean isBucketExists(String bucket) {
-        try {
-            return client.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
-        } catch (Exception e) {
-            throw new MinioException(e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public void makeBucket() {
-        makeBucket(defaultBucket);
-    }
-
-    @Override
-    public void makeBucket(String bucket) {
-        try {
-            if (!isBucketExists(bucket)) {
-                client.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
-            }
-        } catch (Exception e) {
-            throw new MinioException(e.getMessage(), e);
-        }
+    public ObjectOperatorsImpl(MinioClient client, String defaultBucket) {
+        this.client = client;
+        this.defaultBucket = defaultBucket;
     }
 
     @Override
@@ -87,6 +60,8 @@ public class DefaultMinioAgent implements MinioAgent {
     public InputStream getObject(Path object) {
         return getObject(defaultBucket, object);
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
     public BucketAndObject uploadObject(String filename, String object) {
@@ -114,6 +89,8 @@ public class DefaultMinioAgent implements MinioAgent {
         return uploadObject(defaultBucket, filename, object);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     @Override
     public BucketAndObject uploadObject(File file, String object) {
         return uploadObject(defaultBucket, file, object);
@@ -130,6 +107,8 @@ public class DefaultMinioAgent implements MinioAgent {
         return uploadObject(defaultBucket, file, object);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     @Override
     public BucketAndObject uploadObject(Path path, String object) {
         return uploadObject(defaultBucket, path, object);
@@ -145,6 +124,8 @@ public class DefaultMinioAgent implements MinioAgent {
     public BucketAndObject uploadObject(Path path, Path object) {
         return uploadObject(defaultBucket, path, object);
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
     public BucketAndObject uploadObject(InputStream inputStream, String object) {
@@ -174,6 +155,8 @@ public class DefaultMinioAgent implements MinioAgent {
         return uploadObject(defaultBucket, inputStream, object);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     @Override
     public void deleteObject(String object) {
         deleteObject(defaultBucket, object);
@@ -196,24 +179,6 @@ public class DefaultMinioAgent implements MinioAgent {
     @Override
     public void deleteObject(Path object) {
         deleteObject(defaultBucket, object);
-    }
-
-    @Override
-    public void deleteBucket() {
-        deleteBucket(defaultBucket);
-    }
-
-    @Override
-    public void deleteBucket(String bucket) {
-        try {
-            client.removeBucket(
-                    RemoveBucketArgs.builder()
-                            .bucket(bucket)
-                            .build()
-            );
-        } catch (Exception e) {
-            throw new MinioException(e.getMessage(), e);
-        }
     }
 
 }

@@ -10,7 +10,13 @@
 */
 package com.github.yingzhuo.spring.boot.minio.autoconfig;
 
-import com.github.yingzhuo.spring.boot.minio.*;
+import com.github.yingzhuo.spring.boot.minio.BucketAndObjectConverter;
+import com.github.yingzhuo.spring.boot.minio.MinioClientFactory;
+import com.github.yingzhuo.spring.boot.minio.OkHttpClientProvider;
+import com.github.yingzhuo.spring.boot.minio.operators.BucketOperators;
+import com.github.yingzhuo.spring.boot.minio.operators.BucketOperatorsImpl;
+import com.github.yingzhuo.spring.boot.minio.operators.ObjectOperators;
+import com.github.yingzhuo.spring.boot.minio.operators.ObjectOperatorsImpl;
 import com.github.yingzhuo.spring.boot.minio.properties.MinioProperties;
 import io.minio.MinioClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -48,8 +54,14 @@ class MinioCoreAutoConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    MinioAgent minioAgent(MinioClient client, MinioProperties properties) {
-        return new DefaultMinioAgent(client, properties.getBucket());
+    BucketOperators bucketOperators(MinioClient client, MinioProperties properties) {
+        return new BucketOperatorsImpl(client, properties.getBucket());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    ObjectOperators objectOperators(MinioClient client, MinioProperties properties) {
+        return new ObjectOperatorsImpl(client, properties.getBucket());
     }
 
 }
