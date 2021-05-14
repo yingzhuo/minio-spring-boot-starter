@@ -11,12 +11,13 @@
 package com.github.yingzhuo.spring.boot.minio;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author 应卓
  * @since 1.0.2
  */
-public interface BucketAndObject extends Serializable {
+public interface BucketAndObject extends Map.Entry<String, String>, Serializable {
 
     public static BucketAndObject newInstance(final String bucket, final String object) {
         return new BucketAndObject() {
@@ -34,11 +35,33 @@ public interface BucketAndObject extends Serializable {
             public String toString() {
                 return String.format("%s:%s", getBucket(), getObject());
             }
+
+            @Override
+            public String asString() {
+                return toString();
+            }
         };
     }
 
     public String getBucket();
 
     public String getObject();
+
+    public String asString();
+
+    @Override
+    default String getKey() {
+        return getBucket();
+    }
+
+    @Override
+    default String getValue() {
+        return getObject();
+    }
+
+    @Override
+    default String setValue(String s) {
+        throw new UnsupportedOperationException();
+    }
 
 }
