@@ -37,7 +37,10 @@ minio:
 
 ### 使用
 
-请参考[MinioAgent](./src/main/java/com/github/yingzhuo/spring/boot/minio/MinioAgent.java)源代码
+请参考源代码:
+
+* [BucketOperators.java](./src/main/java/com/github/yingzhuo/spring/boot/minio/operators/BucketOperators.java)
+* [ObjectOperators.java](./src/main/java/com/github/yingzhuo/spring/boot/minio/operators/ObjectOperators.java)
 
 ### 许可证
 

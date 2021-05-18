@@ -2,12 +2,17 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>minio-spring-boot-starter</artifactId>
     <version>1.1.1</version>
     <packaging>jar</packaging>
+
+    <description>spring-boot starter for Minio</description>
+
+    <name>minio-spring-boot-starter</name>
+    <url>https://github.com/yingzhuo/minio-spring-boot-starter</url>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -58,7 +63,7 @@
         <encoding>UTF-8</encoding>
         <java.version>1.8</java.version>
         <spring.boot.version>2.4.5</spring.boot.version>
-        <spring.version>5.3.6</spring.version>
+        <spring.version>5.3.7</spring.version>
         <slf4j.version>1.7.30</slf4j.version>
     </properties>
 
